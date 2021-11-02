@@ -6,21 +6,24 @@ import Search from "../search/Search";
 
 const Gallery = () => {
     const [images, setImages] = useState([])
-    const [value, setValue] = useState('')
+    const [searchText, setSearchText] = useState('')
 
     useEffect(() => {
-        const fetchImage = async () => {
-            const response = await axios.get(`${PIXABAY_API_URL}?key=${process.env.REACT_APP_PIXABAY_API_KEY}&q=${value}&image_type=photo`)
-                .catch(err => console.log(err))
-            setImages(response.data.hits.map(item => ({previewURL: item.previewURL, 'id': item.id})))
-        }
+            const fetchImage = async () => {
+                try{
+                    const response = await axios.get(`${PIXABAY_API_URL}?key=${process.env.REACT_APP_PIXABAY_API_KEY}&q=${searchText}&image_type=photo`)
+                    setImages(response.data.hits.map(item => ({previewURL: item.previewURL, 'id': item.id})))
+                } catch(error){
+                    console.log(error)
+                }
+            }
         fetchImage()
-    }, [value])
+    }, [searchText])
 
     return (
         <div className={classes.gallery}>
             <div className={classes.form}>
-                <Search value={value} setValue={setValue}/>
+                <Search value={searchText} setSearchText={setSearchText}/>
             </div>
             {images.map((image) => (<img key={image.id} src={image.previewURL} alt="not found"/>))}
         </div>
