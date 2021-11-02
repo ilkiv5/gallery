@@ -6,16 +6,14 @@ import {PIXABAY_API_URL} from '../constants'
 
 const Gallery = () => {
     const [images, setImages] = useState([])
-    const [urlImages, setUrlImages] = useState([])
 
     const fetchImage = async () => {
         const response = await axios.get(`${PIXABAY_API_URL}?key=${process.env.REACT_APP_PIXABAY_API_KEY}&q=yellow+flowers&image_type=photo`)
-        setImages(response.data)
-        setUrlImages(response.data.hits.map(item => ({previewURL: item.previewURL, 'id': item.id})))
+        setImages(response.data.hits.map(item => ({previewURL: item.previewURL, 'id': item.id})))
     }
 
     const renderImages = () => {
-        return urlImages.map((image) => (<img key={image.id} src={image.previewURL} alt="dsa"/>))
+        return images.map((image) => (<img key={image.id} src={image.previewURL} alt="dsa"/>))
     }
     useEffect(()=>{
         fetchImage()
