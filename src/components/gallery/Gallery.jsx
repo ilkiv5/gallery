@@ -12,16 +12,13 @@ const Gallery = () => {
         setImages(response.data.hits.map(item => ({previewURL: item.previewURL, 'id': item.id})))
     }
 
-    const renderImages = () => {
-        return images.map((image) => (<img key={image.id} src={image.previewURL} alt="dsa"/>))
-    }
     useEffect(()=>{
         fetchImage()
     },[])
 
     return (
         <div className={classes.gallery}>
-            {renderImages()}
+            {images.map((image) => (<img key={image.id} src={image.previewURL} alt="dsa"/>))}
         </div>
     );
 };
