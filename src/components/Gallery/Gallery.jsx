@@ -2,12 +2,12 @@ import React, { useEffect, useState} from 'react';
 import Button from '@mui/material/Button';
 import {Input} from '@mui/material'
 import axios from "axios";
+import cn from 'classnames'
+import {IoAddCircleSharp} from 'react-icons/io5'
 import Modal from "../UI/Modal/Modal";
 import Search from "../Search/Search";
-import cn from 'classnames'
 import cl from './Gallery.module.css'
 import {PIXABAY_API_URL} from '../constants'
-import {IoAddCircleSharp} from 'react-icons/io5'
 
 const Gallery = () => {
     const [images, setImages] = useState([])
@@ -28,9 +28,9 @@ const Gallery = () => {
     }
 
     const addDataImageToCollection = () => {
-        const arr = JSON.parse(localStorage.getItem(selectedOption )) || [];
-        arr.push(imageData)
-        localStorage.setItem(selectedOption , JSON.stringify(arr))
+        const collectionsImages = JSON.parse(localStorage.getItem(selectedOption )) || [];
+        collectionsImages.push(imageData)
+        localStorage.setItem(selectedOption , JSON.stringify(collectionsImages))
     }
 
     const  handleAddItemToLocalStorage = () => {
