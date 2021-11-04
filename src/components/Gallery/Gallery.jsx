@@ -1,105 +1,100 @@
-import React, {useEffect, useState} from 'react';
-import axios from "axios";
-import classes from './Gallery.module.css'
+import React, { useEffect, useState} from 'react';
+import Modal from "../UI/Modal/Modal";
+import Search from "../Search/Search";
+import cn from 'classnames'
+import cl from './Gallery.module.css'
 import {PIXABAY_API_URL} from '../constants'
-import Search from "../search/Search";
+import axios from "axios";
 import {IoAddCircleSharp} from 'react-icons/io5'
-import Modal from "../UI/modal/Modal";
 import Button from '@mui/material/Button';
 import {Input} from '@mui/material'
-
 
 const Gallery = () => {
     const [images, setImages] = useState([])
     const [searchText, setSearchText] = useState('')
-    const [modal, setModal] = useState(false)
-    const [addCollection, setAddCollection] = useState('')
-    const [select, setSelect] = useState('')
-    const [dataFromImage, setDataFromImage] = useState({})
+    const [isOpenModal, setIsOpenModal] = useState(false)
+    const [createCollection, setCreateCollection] = useState('')
+    const [selectedOption , setSelectedOption] = useState('')
+    const [imageData, setImageData] = useState({})
     const [options, setOptions] = useState({...localStorage})
 
     const fetchImage = async () => {
         try {
             const response = await axios.get(`${PIXABAY_API_URL}?key=${process.env.REACT_APP_PIXABAY_API_KEY}&q=${searchText}&image_type=photo`)
-            setImages(response.data.hits.map(item => ({previewURL: item.previewURL, 'id': item.id, 'tags': item.tags})))
+            setImages(response.data.hits.map(item => ({previewURL: item.previewURL, id: item.id, tags: item.tags})))
         } catch (error) {
             console.log(error)
         }
     }
-    useEffect(() => {
-        fetchImage()
-        showCollection()
-    }, [searchText])
 
-
-    const getItem = () => {
-        const arr = JSON.parse(localStorage.getItem(select)) || [];
-        arr.push(dataFromImage)
-        localStorage.setItem(select, JSON.stringify(arr))
+    const addDataImageToCollection = () => {
+        const arr = JSON.parse(localStorage.getItem(selectedOption )) || [];
+        arr.push(imageData)
+        localStorage.setItem(selectedOption , JSON.stringify(arr))
     }
 
-    const addItemToLocalStorage = () => {
-        const updatedOptions = {...options, [addCollection]: []}
+    const  handleAddItemToLocalStorage = () => {
+        const updatedOptions = {...options, [createCollection]: []}
         setOptions(updatedOptions)
-        localStorage.setItem(`${addCollection}`, JSON.stringify([]))
-        setAddCollection('')
+        localStorage.setItem(createCollection, JSON.stringify([]))
+        setCreateCollection('')
     }
 
-    const showCollection = () => {
-        let arr = []
-        for (let i = 0, len = localStorage.length; i < len; ++i) {
-            arr.push(localStorage.key(i));
-        }
-        return arr
-    }
+
+
+   useEffect(() => {
+         fetchImage()
+    }, //eslint-disable-next-line react-hooks/exhaustive-deps
+    [searchText])
+
 
     return (
-        <div className={classes.main_container}>
-            <Modal visible={modal} setVisible={setModal}>
-                <h2> In which collection to add?</h2>
-                <div style={{margin: '15px 0'}}>
-                    <Input value={addCollection} placeholder="Create collection"
-                           onChange={(event) => setAddCollection(event.target.value)}/>
-                    <Button variant="contained" color="success" style={{marginLeft: '10px', fontSize: '10px'}}
-                            onClick={addItemToLocalStorage}>
+        <div className={cn(cl.main_container)}>
+            <Modal visible={isOpenModal} handleSetVisible={setIsOpenModal}>
+                <h2> Select collection</h2>
+                <div className={cn(cl.createCollection)}>
+                    <Input value={createCollection} placeholder="Create collection"
+                           onChange={(event) => setCreateCollection(event.target.value)}/>
+                    <Button sx={{fontSize:'10px', marginLeft:'10px'}} variant="contained" color="success"
+                            onClick={ handleAddItemToLocalStorage}>
                         Create
                     </Button>
                 </div>
                 <p>Collections :</p>
-                <select value={select} onChange={(event) => setSelect(event.target.value)}>
+                <select value={selectedOption } onChange={(event) => setSelectedOption(event.target.value)}>
                     {Object.keys(options).map(item => (
                         <option key={item}>{item}</option>
                     ))}
                 </select>
                 <div>
-                    <Button style={{marginTop: '10px', fontSize: '10px'}} variant="contained" color="success"
-                            onClick={getItem}>
+                    <Button sx={{fontSize:'10px', marginTop:'10px'}}  variant="contained" color="success"
+                            onClick={addDataImageToCollection}>
                         Add
                     </Button>
                 </div>
                 <div>
-                    <Button variant="contained" color="error" style={{marginTop: '10px', fontSize: '10px'}}
-                            onClick={() => setModal(false)}>
+                    <Button sx={{fontSize:'10px', marginTop:'10px'}} variant="contained" color="error"
+                            onClick={() => setIsOpenModal(false)}>
                         Close
                     </Button>
                 </div>
             </Modal>
 
-            <div className={classes.search}>
+            <div className={cl.search}>
                 <Search value={searchText} setSearchText={setSearchText} placeholder="Search..."/>
             </div>
-            <div className={classes.gallery}>
+            <div className={cl.gallery}>
                 {images.map((image) => (
-                    <div className={classes.images} key={image.id}>
+                    <div className={cl.images} key={image.id}>
                         <img
                             src={image.previewURL}
                             alt="not found"/>
                         <IoAddCircleSharp
                             onClick={() => {
-                                setDataFromImage({previewURL: image.previewURL, 'id': image.id, 'tags': image.tags})
-                                setModal(true);
+                                setImageData({previewURL: image.previewURL, id: image.id, tags: image.tags})
+                                setIsOpenModal(true);
                             }}
-                            className={classes.button}>
+                            className={cl.button}>
                             Add
                         </IoAddCircleSharp>
                     </div>))}
