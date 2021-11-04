@@ -1,13 +1,13 @@
 import React, { useEffect, useState} from 'react';
+import Button from '@mui/material/Button';
+import {Input} from '@mui/material'
+import axios from "axios";
 import Modal from "../UI/Modal/Modal";
 import Search from "../Search/Search";
 import cn from 'classnames'
 import cl from './Gallery.module.css'
 import {PIXABAY_API_URL} from '../constants'
-import axios from "axios";
 import {IoAddCircleSharp} from 'react-icons/io5'
-import Button from '@mui/material/Button';
-import {Input} from '@mui/material'
 
 const Gallery = () => {
     const [images, setImages] = useState([])
@@ -40,13 +40,10 @@ const Gallery = () => {
         setCreateCollection('')
     }
 
-
-
    useEffect(() => {
          fetchImage()
     }, //eslint-disable-next-line react-hooks/exhaustive-deps
     [searchText])
-
 
     return (
         <div className={cn(cl.main_container)}>
@@ -84,11 +81,11 @@ const Gallery = () => {
                 <Search value={searchText} setSearchText={setSearchText} placeholder="Search..."/>
             </div>
             <div className={cl.gallery}>
-                {images.map((image) => (
+                {images.map((image, index) => (
                     <div className={cl.images} key={image.id}>
                         <img
                             src={image.previewURL}
-                            alt="not found"/>
+                            alt="photo"/>
                         <IoAddCircleSharp
                             onClick={() => {
                                 setImageData({previewURL: image.previewURL, id: image.id, tags: image.tags})
