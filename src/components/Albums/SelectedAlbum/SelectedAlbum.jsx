@@ -8,7 +8,7 @@ import cl from './SelectedAlbum.module.css'
 const SelectedAlbum = () => {
     const [collection, setCollection] = useState([])
     const [isOpenModal, setIsOpenModal] = useState(false)
-    const [editCollection, setEditCollection] = useState('')
+    const [newCollectionName, setNewCollectionName] = useState('')
 
     const history = useHistory()
     const {collectionName} = useParams()
@@ -16,13 +16,13 @@ const SelectedAlbum = () => {
     const getCollection = () => {
         const currentCollection = localStorage.getItem(collectionName)
         if (currentCollection) {
-            setCollection(JSON.parse(localStorage.getItem(collectionName)))
+            setCollection(JSON.parse(currentCollection))
         }
     }
 
     const renameCollection = () => {
-        const rename = JSON.parse(localStorage.getItem(collectionName))
-        localStorage.setItem(editCollection, JSON.stringify(rename))
+        const previousCollectionName = JSON.parse(localStorage.getItem(collectionName))
+        localStorage.setItem(newCollectionName, JSON.stringify(previousCollectionName))
         localStorage.removeItem(collectionName)
     }
 
@@ -42,13 +42,13 @@ const SelectedAlbum = () => {
                     <span>Edit collection <strong>{collectionName}</strong></span>
                 </div>
                 <Input placeholder="Enter new name" type="text"
-                       onChange={(event) => setEditCollection(event.target.value)}/>
+                       onChange={(event) => setNewCollectionName(event.target.value)}/>
                 <Button sx={{fontSize: '10px', marginTop: '10px', marginLeft: '10px'}} variant="contained"
                         color="success"
                         onClick={()=>{
                             renameCollection()
                             setIsOpenModal(false)
-                            history.push('/album/' + editCollection)
+                            history.push(`/album/${newCollectionName}`)
                         }}>
                     Edit
                 </Button><br/>
@@ -57,11 +57,10 @@ const SelectedAlbum = () => {
                     Close
                 </Button>
             </Modal>
-            {collection.map((item, index) => (
-                <div key={index} className={cl.gallery}>
-                    <img src={item.previewURL} alt={`photo_+${index}`}/>
+            {collection.map(({previewURL,id}, index) => (
+                <div key={id} className={cl.gallery}>
+                    <img src={previewURL} alt={`photo_+${index}`}/>
                 </div>
-
             ))}
         </div>
     );

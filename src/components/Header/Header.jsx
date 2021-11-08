@@ -9,10 +9,10 @@ const Header = () => {
         <div>
 
             <AppBar position="static" style={{backgroundColor: 'teal',}}>
-                <div className={cn(classes.header_text)} style={{height: '40px'}}>
+                <div className={cn(classes.header_text)} >
                     <Link className={classes.nav} to="/">Home</Link>
-                    <Link className={classes.nav} to="/album">album</Link>
-                    <Link className={classes.nav} to="/gallery">gallery</Link>
+                    <Link className={classes.nav} to="/album">Album</Link>
+                    <Link className={classes.nav} to="/gallery">Gallery</Link>
                 </div>
             </AppBar>
         </div>

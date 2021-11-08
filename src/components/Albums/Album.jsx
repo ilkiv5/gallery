@@ -12,7 +12,7 @@ const Album = () => {
     }
 
     return (
-        <div className={cl.album__main}>
+        <div>
             <div className={cl.album__collection}>
                 {Object.keys(collections).map((collection) => (
                     <div className={cl.album__item} key={collection}
