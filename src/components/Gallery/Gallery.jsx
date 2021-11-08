@@ -85,7 +85,7 @@ const Gallery = () => {
                     <div className={cl.images} key={image.id}>
                         <img
                             src={image.previewURL}
-                            alt="photo"/>
+                            alt={`photo_${index}`}/>
                         <IoAddCircleSharp
                             onClick={() => {
                                 setImageData({previewURL: image.previewURL, id: image.id, tags: image.tags})
