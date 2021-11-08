@@ -25,6 +25,9 @@ const SelectedAlbum = () => {
         localStorage.setItem(newCollectionName, JSON.stringify(previousCollectionName))
         localStorage.removeItem(collectionName)
     }
+    const removeCollection = ()=>{
+        localStorage.removeItem(collectionName)
+    }
 
     useEffect(getCollection,[collectionName])
 
@@ -34,6 +37,13 @@ const SelectedAlbum = () => {
                 <Button sx={{fontSize: '10px', marginTop: '10px', left:'40%'}} variant="contained" color="success"
                         onClick={() => setIsOpenModal(true)}>
                     Edit {collectionName}
+                </Button>
+                <Button sx={{fontSize: '10px', marginTop: '10px', left:'42%'}} variant="contained" color="error"
+                onClick={()=>{
+                    removeCollection()
+                    history.push('/album')
+                }}>
+                    Remove {collectionName}
                 </Button>
             </div>
 
