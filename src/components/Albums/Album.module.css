@@ -1,0 +1,19 @@
+.album__main {
+
+}
+
+.album__modal_header{
+    font-size: 20px;
+}
+.album__collection {
+    padding: 10px;
+}
+.album__item{
+    padding: 10px  ;
+    cursor:pointer;
+    display: inline-block;
+}
+.album__item:hover{
+   border: 1px solid teal;
+    border-radius: 15px;
+}
