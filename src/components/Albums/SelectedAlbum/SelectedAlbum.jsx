@@ -41,6 +41,7 @@ const SelectedAlbum = () => {
     useEffect(() => {
         getCollection()
         removeImage()
+        //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [collectionName])
 
     return (
