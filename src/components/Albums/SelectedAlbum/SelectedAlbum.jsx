@@ -27,9 +27,8 @@ const SelectedAlbum = () => {
         localStorage.setItem(newCollectionName, JSON.stringify(previousCollectionName))
         localStorage.removeItem(collectionName)
     }
-    const removeCollection = () => {
-        localStorage.removeItem(collectionName)
-    }
+    const removeCollection = () => localStorage.removeItem(collectionName)
+
 
     const removeImage = (id) => {
         const currentImages = JSON.parse(localStorage.getItem(collectionName))
@@ -79,13 +78,13 @@ const SelectedAlbum = () => {
                     Close
                 </Button>
             </Modal>
-            {collection.map((image, index) => (
-                <div key={image.id} className={cl.images}>
-                    <img src={image.previewURL} alt={`photo_${index}`}/>
+            {collection.map(({previewURL,id}, index) => (
+                <div key={id} className={cl.images}>
+                    <img src={previewURL} alt={`photo_${index}`}/>
                     <IoCloseCircleOutline
                         className={cl.button}
                         onClick={() => {
-                            removeImage(image.id)
+                            removeImage(id)
                         }}
                     />
                 </div>
