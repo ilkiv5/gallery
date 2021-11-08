@@ -92,7 +92,6 @@ const Gallery = () => {
                                 setIsOpenModal(true);
                             }}
                             className={cl.button}>
-                            Add
                         </IoAddCircleSharp>
                     </div>))}
             </div>
