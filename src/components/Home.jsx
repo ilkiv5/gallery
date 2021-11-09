@@ -1,9 +1,18 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import {useDispatch} from "react-redux";
+import {ImageContext} from "../imagesContext/ImagesContext";
 
-const Home = () => (
+const Home = () => {
+
+    const dispatch = useDispatch()
+    const {images } = useContext(ImageContext)
+
+
+    return (
         <div>
-          this is Home
+
         </div>
-    );
+    )
+};
 
 export default Home;
