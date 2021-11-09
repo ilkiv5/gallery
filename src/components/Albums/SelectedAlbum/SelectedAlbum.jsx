@@ -2,8 +2,10 @@ import React, {useEffect, useState} from 'react';
 import Button from "@mui/material/Button";
 import Input from "@mui/material/Input";
 import {useParams, useHistory} from "react-router-dom";
+import {IoCloseCircleOutline} from 'react-icons/io5'
 import Modal from "../../UI/Modal/Modal";
 import cl from './SelectedAlbum.module.css'
+
 
 const SelectedAlbum = () => {
     const [collection, setCollection] = useState([])
@@ -25,24 +27,34 @@ const SelectedAlbum = () => {
         localStorage.setItem(newCollectionName, JSON.stringify(previousCollectionName))
         localStorage.removeItem(collectionName)
     }
-    const removeCollection = ()=>{
-        localStorage.removeItem(collectionName)
+    const removeCollection = () => localStorage.removeItem(collectionName)
+
+
+    const removeImage = (id) => {
+        const currentImages = JSON.parse(localStorage.getItem(collectionName))
+        const removeItemOnCollection = currentImages.filter(image => image.id !== id)
+        localStorage.setItem(collectionName, JSON.stringify(removeItemOnCollection))
+        setCollection(JSON.parse(localStorage.getItem(collectionName)))
     }
 
-    useEffect(getCollection,[collectionName])
+    useEffect(() => {
+        getCollection()
+        removeImage()
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [collectionName])
 
     return (
         <div>
             <div>
-                <Button sx={{fontSize: '10px', marginTop: '10px', left:'40%'}} variant="contained" color="success"
+                <Button sx={{fontSize: '10px', marginTop: '10px', left: '40%'}} variant="contained" color="success"
                         onClick={() => setIsOpenModal(true)}>
                     Edit {collectionName}
                 </Button>
-                <Button sx={{fontSize: '10px', marginTop: '10px', left:'42%'}} variant="contained" color="error"
-                onClick={()=>{
-                    removeCollection()
-                    history.push('/album')
-                }}>
+                <Button sx={{fontSize: '10px', marginTop: '10px', left: '42%'}} variant="contained" color="error"
+                        onClick={() => {
+                            removeCollection()
+                            history.push('/album')
+                        }}>
                     Remove {collectionName}
                 </Button>
             </div>
@@ -55,10 +67,9 @@ const SelectedAlbum = () => {
                        onChange={(event) => setNewCollectionName(event.target.value)}/>
                 <Button sx={{fontSize: '10px', marginTop: '10px', marginLeft: '10px'}} variant="contained"
                         color="success"
-                        onClick={()=>{
+                        onClick={() => {
                             renameCollection()
                             setIsOpenModal(false)
-                            history.push(`/album/${newCollectionName}`)
                         }}>
                     Edit
                 </Button><br/>
@@ -68,8 +79,14 @@ const SelectedAlbum = () => {
                 </Button>
             </Modal>
             {collection.map(({previewURL,id}, index) => (
-                <div key={id} className={cl.gallery}>
-                    <img src={previewURL} alt={`photo_+${index}`}/>
+                <div key={id} className={cl.images}>
+                    <img src={previewURL} alt={`photo_${index}`}/>
+                    <IoCloseCircleOutline
+                        className={cl.button}
+                        onClick={() => {
+                            removeImage(id)
+                        }}
+                    />
                 </div>
             ))}
         </div>
