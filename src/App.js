@@ -6,7 +6,6 @@ import Home from "./components/Home";
 import Gallery from "./components/Gallery/Gallery";
 import SelectedAlbum from "./components/Albums/SelectedAlbum/SelectedAlbum";
 import Album from "./components/Albums/Album";
-import ImagesContext from "./imagesContext/ImagesContext";
 
 function App() {
         return (
@@ -17,7 +16,6 @@ function App() {
                 <Route path="/gallery" component={Gallery}/>
                 <Route path="/album/:collectionName" component={SelectedAlbum}/>
                 <Route path="/album" component={Album}/>
-                <Route path="/context" component={ImagesContext}/>
             </Switch>
         </div>
     );
