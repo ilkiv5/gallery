@@ -1,0 +1,54 @@
+.main_container {
+    margin-top: 20px;
+}
+
+.search {
+    margin-bottom: 20px;
+}
+
+.gallery {
+    position: relative;
+
+}
+
+.images {
+    padding: 5px;
+    display: inline-block;
+    position: relative;
+
+}
+
+.images:hover {
+    opacity: 0.9;
+    -moz-transition: all 0.4s;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition: all 0.4s;
+}
+
+.button {
+    opacity: 0;
+    position: absolute;
+    background: rgba(0, 0, 0, .3);
+    color: #fff;
+    transition: opacity .3s;
+    left: 42%;
+    top: 40%;
+    width: 30px;
+    height: 30px;
+}
+
+.images:hover .button {
+    opacity: 3;
+    transition: opacity .3s;
+}
+
+.createCollection {
+    margin: 15px 0;
+}
+
+.Button{
+    font-size: 10px;
+}
+
+

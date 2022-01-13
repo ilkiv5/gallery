@@ -1,0 +1,38 @@
+.album__modal_header {
+    font-size: 20px;
+}
+
+.gallery {
+    display: inline-block;
+    padding: 5px;
+}
+
+.images {
+    padding: 5px;
+    display: inline-block;
+    position: relative;
+
+}
+.images:hover {
+    opacity: 0.9;
+    -moz-transition: all 0.4s;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition: all 0.4s;
+}
+.button {
+    opacity: 0;
+    position: absolute;
+    background: rgba(0, 0, 0, .3);
+    color: #fff;
+    transition: opacity .3s;
+    right: 5%;
+    top: 5%;
+    width: 20px;
+    height: 20px;
+}
+
+.images:hover .button {
+    opacity: 3;
+    transition: opacity .3s;
+}
